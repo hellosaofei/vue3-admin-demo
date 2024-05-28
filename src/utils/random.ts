@@ -28,11 +28,6 @@ export function randomNum(min: number, max: number) {
   }
 }
 
-const hexList: string[] = [];
-for (let i = 0; i <= 15; i++) {
-  hexList[i] = i.toString(16);
-}
-
 /**
  * 生成全球唯一标识
  * @returns uuid

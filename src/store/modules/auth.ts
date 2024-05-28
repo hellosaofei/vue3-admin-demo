@@ -1,7 +1,16 @@
 import { defineStore } from "pinia";
+import { staticRouter } from "@/router/modules/staticRouter";}
+import { generateRoutes, generateFlattenRoutes } from "@/utils/filterRoute.ts";
+import { getShowStaticMenuList, getShowDynamicMenuList, getAllBreadcrumbList } from "@/utils/index.ts";
+
+
 
 const authStore = defineStore("auth", {
-  actions: {},
+  actions: {
+    listRoutes(){
+      this.menuList=generate
+    }
+  },
   state: () => {
     return {
       // 扁平化路由数据
