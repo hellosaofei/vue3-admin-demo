@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^10.10.0",
+    "axios": "^1.7.2",
     "element-plus": "^2.7.3",
     "js-cookie": "^3.0.5",
     "mitt": "^3.0.1",

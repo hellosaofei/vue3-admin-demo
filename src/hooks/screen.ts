@@ -1,3 +1,5 @@
+// 用于判断当前设备的类型
+
 import { reactive } from "vue";
 import { useBreakpoints } from "@vueuse/core";
 
@@ -12,7 +14,7 @@ export const breakpointsEnum = {
 export const useScreenStore = () => {
   const breakpoints = reactive(useBreakpoints(breakpointsEnum));
   // 手机端
-  const isMobile: boolean = breakpoints.smaller("sm");
+  const isMobile = breakpoints.smaller("sm");
   // pad端
   const isPad = breakpoints.between("sm", "md");
   // pc端

@@ -26,4 +26,8 @@ npm i element-plus
 
 # vue3 Fn
 npm i @vueuse/core
+
+
+# 网络请求
+npm i axios
 ```

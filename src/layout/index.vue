@@ -1,35 +1,31 @@
 <template>
-  <component :is="LayoutComponent[layout]" v-if="!isMobile"></component>
-
-  <!-- <component :is="Layout"></component> -->
+  <component
+    :is="LayoutComponent[globalStore.layout]"
+    v-if="!isMobile"
+  ></component>
+  <component :is="LayoutMobile" v-if="isMobile"></component>
 </template>
 
 <script setup lang="ts">
 import { type Component } from "vue";
-import { useScreenStore } from "@/hooks/screen/index.ts";
-
-import useGlobalStore from "@/store/modules/global";
-// 引入不同布局的组件
-import LayoutVertical from "./LayoutVertical/index.vue";
-import LayoutColumn from "./LayoutColumn/index.vue";
-import LayoutHorizontal from "./LayoutHorizontal/index.vue";
-
-type LayoutType = "vertical" | "columns" | "horizontal" | string;
-
-const LayoutComponent: Record<LayoutType, Component> = {
-  vertical: LayoutVertical,
-  columns: LayoutColumn,
-  horizontal: LayoutHorizontal,
-};
+// 从hooks中导入数据
+import { useGlobalStore } from "@/hooks/store.ts";
+import { isMobile } from "@/hooks/screen.ts";
+import {
+  LayoutColumns,
+  LayoutVertical,
+  LayoutClassic,
+  LayoutMobile,
+  LayoutHorizontal,
+} from "./LayoutPlan/index.ts";
 
 const globalStore = useGlobalStore();
-// 获取布局格式
-const layout = computed(() => {
-  return globalStore.layout;
-});
 
-// 当前是否为移动端
-const { isMobile } = useScreenStore();
+type LayoutType = "vertical" | "columns" | "classic" | "horizontal" | string;
+const LayoutComponent: Record<LayoutType, Component> = {
+  vertical: LayoutVertical,
+  columns: LayoutColumns,
+  classic: LayoutClassic,
+  horizontal: LayoutHorizontal,
+};
 </script>
-
-<style lang="scss" scoped></style>
