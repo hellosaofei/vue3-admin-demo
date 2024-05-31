@@ -1,4 +1,4 @@
-<template>这是column布局</template>
+<template>这里是dict界面</template>
 
 <script setup lang="ts"></script>
 

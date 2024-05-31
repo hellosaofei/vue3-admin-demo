@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 import { userLogin, userLogout, getUserInfo } from "@/api/user";
 import { pinia_prefix } from "@/config";
 
+// import { initDynamicRouter } from "@/routers/modules/dynamicRouter";
 const useUserStore = defineStore("user", {
   persist: {
     key: pinia_prefix + "user",
@@ -14,13 +15,14 @@ const useUserStore = defineStore("user", {
       this.name = "";
       this.avatar = "";
     },
-    login(userInfo) {
+    login(userInfo: any) {
       const { username, password } = userInfo;
       return new Promise<void>((resolve, reject) => {
         userLogin({ username: username.trim(), password: password })
           .then((response) => {
             const { data } = response;
             this.token = data.token;
+
             resolve();
           })
           .catch((error) => {
@@ -44,6 +46,7 @@ const useUserStore = defineStore("user", {
             const { name, avatar } = data;
             this.name = name;
             this.avatar = avatar;
+            // initDynamicRouter();
             resolve(); //将用户信息交出去
           })
           .catch((error) => {

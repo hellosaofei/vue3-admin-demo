@@ -1,10 +1,16 @@
-import useAuthStore from "@/store/modules/auth.ts";
-import useGlobalStore from "@/store/modules/global.ts";
+import useAuthStore from "@/store/modules/auth";
+import useGlobalStore from "@/store/modules/global";
 import useUserStore from "@/store/modules/user";
+import useAliveRouteStore from "@/store/modules/keepAlive";
+import useTabStore from "@/store/modules/tabs";
 
-export default function useStore() {
+const useStoreCase: any = () => {
   const userStore = useUserStore();
   const authStore = useAuthStore();
   const globalStore = useGlobalStore();
-  return { authStore, globalStore, userStore };
-}
+  const aliveRouteStore = useAliveRouteStore();
+  const tabStore = useTabStore();
+  return { authStore, globalStore, userStore, aliveRouteStore, tabStore };
+};
+
+export default useStoreCase;

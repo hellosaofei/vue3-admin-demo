@@ -1,4 +1,4 @@
-<template>这是column布局</template>
+<template>personage页面</template>
 
 <script setup lang="ts"></script>
 

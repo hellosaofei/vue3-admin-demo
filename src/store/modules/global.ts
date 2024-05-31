@@ -25,9 +25,17 @@ const globalStore = defineStore("global", {
   state: () => {
     return {
       isCollapse: false,
+
       menuWidth: 200,
+
+      // 布局模式 (纵向：vertical | 经典：classic | 横向：crosswise | 分栏：column)
       layout: "vertical",
+
       menuItemBgColor: "",
+      // 是否显示  全局主题配置   界面
+      isShowThemeConfig: false,
+      // 是否显示 标签式导航栏
+      isShowTab: true,
     };
   },
   getters: {},

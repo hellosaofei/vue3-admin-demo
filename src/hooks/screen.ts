@@ -11,7 +11,7 @@ export const breakpointsEnum = {
   xs: 575,
 };
 
-export const useScreenStore = () => {
+const useScreenStore = () => {
   const breakpoints = reactive(useBreakpoints(breakpointsEnum));
   // 手机端
   const isMobile = breakpoints.smaller("sm");
@@ -26,3 +26,4 @@ export const useScreenStore = () => {
     isDesktop,
   };
 };
+export default useScreenStore;

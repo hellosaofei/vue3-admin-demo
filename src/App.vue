@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { useTheme } from "@/utils/theme.ts";
+import { useTheme } from "@/utils/theme";
 
 const { initThemeConfig } = useTheme();
 

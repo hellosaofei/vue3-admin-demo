@@ -2,12 +2,25 @@
 import { defineStore } from "pinia";
 import { getRouteList } from "@/api/route";
 
+import {
+  generateRoutes,
+  generateFlattenRoutes,
+  getShowStaticMenuList,
+  getShowDynamicMenuList,
+  getAllBreadcrumbList,
+} from "../tools/index";
+
+import { staticRouter } from "@/routers/modules/staticRouter";
+
 const authStore = defineStore("auth", {
   actions: {
+    // 生成 菜单/导航栏 数据
     async getMenuList() {
       const res = await getRouteList();
-      const { data } = res;
-      this.flattenMenuList = [];
+      this.flattenMenuList = generateFlattenRoutes(res.data);
+      this.realMenuList = getShowStaticMenuList(staticRouter).concat(
+        generateRoutes(getShowDynamicMenuList(res.data), 0)
+      );
     },
   },
   state: () => {
@@ -16,7 +29,9 @@ const authStore = defineStore("auth", {
       realMenuList: [],
     };
   },
-  getters: {},
+  getters: {
+    getBreadcrumbList: (state) => getAllBreadcrumbList(state.realMenuList),
+  },
 });
 
 export default authStore;
