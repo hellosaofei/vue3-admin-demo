@@ -1,5 +1,5 @@
 <template>
-  <div class="koiLogo" v-show="hidden">
+  <div class="Logo" v-show="hidden">
     <img
       class="m-l-15px m-r-12px koiLogoImg rounded-full select-none"
       :src="logoUrl"
@@ -24,11 +24,6 @@
       alt="avatar"
       v-if="props.layout === 'horizontal'"
     />
-    <span
-      class="koiTitle font-bold max-w-140 truncate"
-      v-text="title"
-      v-show="!props.isCollapse"
-    ></span>
   </div>
 </template>
 
@@ -76,7 +71,7 @@ watch(
 </script>
 
 <style lang="scss" scoped>
-.koiLogo {
+.Logo {
   display: flex;
   align-items: center;
   width: v-bind(logoWidth);
@@ -84,13 +79,16 @@ watch(
   line-height: 56px;
   text-align: center;
   cursor: pointer;
-  font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+  img {
+    width: 100%;
+    height: 100%;
+  }
 }
-.koiLogoImg {
-  width: v-bind(logoSize);
-  height: v-bind(logoSize);
-}
-.koiTitle {
-  font-size: v-bind(titleSize);
-}
+// .koiLogoImg {
+//   width: v-bind(logoSize);
+//   height: v-bind(logoSize);
+// }
+// .koiTitle {
+//   font-size: v-bind(titleSize);
+// }
 </style>

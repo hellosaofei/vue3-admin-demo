@@ -1,10 +1,9 @@
 // 用于保存标签式导航
 import { defineStore } from "pinia";
 import { pinia_prefix } from "@/config";
-import { useRouter } from "vue-router";
+import router from "@/routers/index";
 // import useAliveRouteStore from "@/store/modules/keepAlive";
 // const aliveRouteStore = useAliveRouteStore();
-const router = useRouter();
 
 interface TabItem {
   icon: string;
@@ -16,10 +15,6 @@ interface TabItem {
 }
 
 const useTabStore = defineStore("tabs", {
-  persist: {
-    key: pinia_prefix,
-    storage: localStorage,
-  },
   actions: {
     // 添加一个tab
     async addTab(tab: TabItem) {

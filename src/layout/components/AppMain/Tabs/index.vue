@@ -63,14 +63,14 @@ function setActiveTab() {
 }
 // 初始化 tab 内容
 function initTab() {
-  authStore.menuList.forEach((item: any) => {
-    if (item.meta.isAffix && !item.meta.isHide) {
+  authStore.flattenMenuList.forEach((item: any) => {
+    if (item.meta.isAffix) {
       const tabItem = {
         icon: item.meta.icon,
         title: item.meta.title,
         path: item.path,
         name: item.name,
-        isShowCloseIcon: false,
+        isShowCloseIcon: true,
         isCache: item.meta.isCache,
       };
       tabStore.addTab(tabItem);
@@ -79,18 +79,18 @@ function initTab() {
 }
 // 添加一个标签式导航的item
 function addTab() {
-  const tab = {
-    icon: route.meta.icon,
+  const tabItem = {
+    icon: route.meta.icon as string,
     title: route.meta.title as string,
     path: route.fullPath,
     name: route.name as string,
-    isShowCloseIcon: route.meta.isAffix,
+    isShowCloseIcon: !route.meta.isAffix,
     isCache: route.meta.isCache,
   };
   if (route.fullPath == "/home") {
-    tab.isShowCloseIcon = false;
+    tabItem.isShowCloseIcon = false;
   }
-  tabStore.addTab(tab);
+  tabStore.addTab(tabItem);
 }
 // 删除一个标签式导航的item
 function removeTab(fullPath: TabPaneName) {

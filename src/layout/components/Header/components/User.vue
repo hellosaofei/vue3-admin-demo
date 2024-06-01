@@ -2,8 +2,9 @@
   <!-- 头像 -->
   <img
     class="w-34px h-34px rounded-full select-none"
-    :src="userStore.avatar"
+    src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
     alt="avatar"
+    width="40"
   />
   <el-dropdown class="m-l-10px" :hide-on-click="false" @command="handleCommand">
     <div class="koi-dropdown">

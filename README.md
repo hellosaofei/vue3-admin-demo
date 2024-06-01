@@ -138,3 +138,107 @@ const routes = [
 - 当访问 /user/123/posts 时：route.matched 同样会是一个包含两个路由记录的数组：
   - > 第一个路由记录是 /user/:id 的路由配置。
   - > 第二个路由记录是 /user/:id/posts 的路由配置。
+
+在 vue-router4 中.router.getRoutes()函数的返回结果是一个扁平化列表，但是我想要通过一个函数将其转换为嵌套形式
+
+```js
+
+{path: '/static/dict', redirect: undefined, name: 'DictPage', meta: {…}, aliasOf: undefined, …}
+
+{path: '/error-page/403', redirect: undefined, name: '403Page', meta: {…}, aliasOf: undefined, …}
+
+{path: '/error-page/404', redirect: undefined, name: '404Page', meta: {…}, aliasOf: undefined, …}
+
+{path: '/error-page/500', redirect: undefined, name: '500Page', meta: {…}, aliasOf: undefined, …}
+
+{
+  path:'/static',
+  redirect:'',
+  meta:""
+},
+{
+  path:"/error-page",
+  redirect:'',
+  meta:"",
+  children:[
+    {
+        path:"/error-page/500",
+        redirect:'',
+        meta:"",
+    },
+    ...
+  ]
+}
+```
+
+```js
+function buildNestedRoutes(flatRoutes) {
+  // 创建根节点
+  const root = { path: "", children: [] };
+
+  // 创建路径映射
+  const pathMap = { "": root };
+
+  // 将扁平化列表的路由对象放入路径映射中
+  flatRoutes.forEach((route) => {
+    pathMap[route.path] = { ...route, children: [] };
+  });
+
+  // 构建嵌套结构
+  flatRoutes.forEach((route) => {
+    const pathSegments = route.path.split("/").filter((segment) => segment);
+    let parentPath = "";
+
+    if (pathSegments.length > 1) {
+      parentPath = "/" + pathSegments.slice(0, -1).join("/");
+    }
+
+    if (pathMap[parentPath]) {
+      pathMap[parentPath].children.push(pathMap[route.path]);
+    } else {
+      root.children.push(pathMap[route.path]);
+    }
+  });
+
+  return root.children;
+}
+
+// 示例扁平化路由列表
+const flatRoutes = [
+  {
+    path: "/static/dict",
+    redirect: undefined,
+    name: "DictPage",
+    meta: {},
+    aliasOf: undefined,
+  },
+  {
+    path: "/error-page/403",
+    redirect: undefined,
+    name: "403Page",
+    meta: {},
+    aliasOf: undefined,
+  },
+  {
+    path: "/error-page/404",
+    redirect: undefined,
+    name: "404Page",
+    meta: {},
+    aliasOf: undefined,
+  },
+  {
+    path: "/error-page/500",
+    redirect: undefined,
+    name: "500Page",
+    meta: {},
+    aliasOf: undefined,
+  },
+  { path: "/static", redirect: "", meta: {} },
+  { path: "/error-page", redirect: "", meta: {} },
+];
+
+// 使用函数构建嵌套路由
+const nestedRoutes = buildNestedRoutes(flatRoutes);
+
+console.log(JSON.stringify(nestedRoutes, null, 2));
+```

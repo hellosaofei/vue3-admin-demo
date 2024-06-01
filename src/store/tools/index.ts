@@ -1,6 +1,6 @@
 import Layout from "@/layout/index.vue";
-import router from "@/routers/index.ts";
-
+import router from "@/routers/index";
+import { type RouteRecordRaw } from "vue-router";
 // 返回一个树状route列表
 export function generateRoutes(data: any[], parentId: number) {
   let modules = import.meta.glob("@/views/**/*.vue");
@@ -24,14 +24,13 @@ export function generateRoutes(data: any[], parentId: number) {
             isHide: data[i].isHide,
             isCache: data[i].isCache,
             isLink: data[i].isLink,
-            isFull: data[i].isFull,
             isAffix: data[i].isAffix,
           },
         };
         // 如果是一级路由，那么他必定有children，生成菜单时将会成为submenu而不是menuItem
         // 那么在点击对应的breadcrumb时，就需要一个redirect以指示跳转位置
         if (data[i].menuType == "1") {
-          route.redirect = `${data[i]?.redirect}` || "/home/index";
+          route.redirect = `${data[i]?.redirect}` || "/home";
         }
         // 递归处理子节点
         const children = generateRoutes(data, data[i].menuId);
@@ -68,13 +67,12 @@ export function generateFlattenRoutes(data: any[]) {
         isHide: data[i].isHide,
         isCache: data[i].isCache,
         isLink: data[i].isLink,
-        isFull: data[i].isFull,
         isAffix: data[i].isAffix,
       },
     };
     // 表明是一级路由
     if (data[i].menuType == "1") {
-      route.redirect = `${data[i]?.redirect}` || "/home/index";
+      route.redirect = `${data[i]?.redirect}` || "/home";
     }
     // 添加到路由列表中
     routes.push(route);
@@ -92,10 +90,32 @@ export function getShowDynamicMenuList(menuList: any) {
 export function getShowStaticMenuList(menuList: any) {
   let newMenuList: any = JSON.parse(JSON.stringify(menuList));
   return newMenuList.filter((item: any) => {
-    return item.meta?.isHide == false;
+    return item.meta?.isHide == false && item.path != "/";
   });
 }
-
+export function getStaticMenuList() {
+  let newMenuList: RouteRecordRaw[] = [];
+  router.options.routes.forEach((item) => {
+    if (item.meta?.isHide == true) return;
+    if (item.path == "/") {
+      newMenuList.push({
+        path: "/home",
+        component: () => import("@/views/home/index.vue"),
+        meta: {
+          title: "首页",
+          icon: "HomeFilled", // icon图标
+          isHide: false, // 是否渲染到导航栏
+          isLink: false, // 是否是外链
+          isCache: false, // 是否缓存
+          isAffix: true, // 是否固定路由
+        },
+      });
+      return;
+    }
+    newMenuList.push(item);
+  });
+  return newMenuList;
+}
 export const getAllBreadcrumbList = (
   menuList: any,
   parent = [],

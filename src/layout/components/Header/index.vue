@@ -4,7 +4,7 @@
       <!-- 左侧菜单展开和折叠图标 -->
       <Collapse></Collapse>
       <!-- 面包屑 -->
-      <BreadCrumb></BreadCrumb>
+      <!-- <BreadCrumb></BreadCrumb> -->
     </div>
     <div class="header-right">
       <!-- 主题配置 -->
@@ -16,9 +16,9 @@
 </template>
 
 <script setup lang="ts">
-import { Collapse, BreadCrumb, User, ThemeSetting } from "./components/index";
+import { Collapse, User, BreadCrumb, ThemeSetting } from "./components/index";
 //   import useToolShow from "@/hooks/toolShow";
-
+// import BreadCrumb from "@/components/BreadCrumb.vue";
 //   const { showTool } = useToolShow();
 </script>
 
@@ -36,6 +36,8 @@ import { Collapse, BreadCrumb, User, ThemeSetting } from "./components/index";
   .header-right {
     display: flex;
     align-items: center;
+    gap: 20px;
+    margin-right: 20px;
   }
 }
 </style>

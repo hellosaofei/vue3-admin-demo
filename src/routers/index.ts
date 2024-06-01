@@ -3,17 +3,14 @@ import {
   createWebHashHistory,
   createWebHistory,
 } from "vue-router";
-import {
-  layoutRouter,
-  staticRouter,
-  errorRouter,
-} from "./modules/staticRouter";
+import { staticRouter, errorRouter } from "./modules/staticRouter";
 
 import useUserStore from "@/store/modules/user";
 import useAuthStore from "@/store/modules/auth";
 
 import nprogress from "@/plugins/nprogress";
 import { ElMessage } from "element-plus";
+import pinia from "@/store";
 
 import { initDynamicRouter } from "./modules/dynamicRouter";
 
@@ -27,25 +24,30 @@ const routerMode: any = {
 
 const router = createRouter({
   history: routerMode[mode](),
-  routes: [...layoutRouter, ...staticRouter, ...errorRouter],
-  scrollBehavior() {
-    return {
-      left: 0,
-      top: 0,
-    };
-  },
+  routes: [...staticRouter, ...errorRouter],
 });
 
+const userStore = useUserStore(pinia);
+const authStore = useAuthStore(pinia);
+
+// 全局 前置路由守卫
 router.beforeEach(async (to, from, next) => {
-  const userStore = useUserStore();
-  const authStore = useAuthStore();
   nprogress.start();
 
   document.title = "Vue3-admin-demo";
+  // // 如果没有token，表明尚未登录，如果前往的页面不在白名单内，强制跳转到login界面
+  // if(!userStore.token){
+  //   if(ROUTER_WHITE_LIST.includes(to.path)){return next()}
+  //   return next({path:'/login'})
+  // }
+  // // 如果已经登录，还要前往login，强制跳转到home界面
+  // if(to.path==='/login'){
+  //   return next({path:"/"})
+  // }
 
-  // if (to.path === "/login") {
+  // if (to.path == "/login") {
   //   if (userStore.token) {
-  //     return next(from.fullPath);
+  //     return next();
   //   } else {
   //     ElMessage({
   //       message: "没有token，请重新登录",
@@ -53,8 +55,8 @@ router.beforeEach(async (to, from, next) => {
   //       type: "success",
   //     });
   //   }
-  //   resetRouter();
-  //   return next();
+  //   // resetRouter();
+  //   // return next();
   // } else {
   //   if (ROUTER_WHITE_LIST.includes(to.path)) {
   //     return next();
@@ -69,6 +71,7 @@ router.beforeEach(async (to, from, next) => {
   //           grouping: true,
   //           type: "success",
   //         });
+  //         return next({ path: "/home" });
   //       }
   //     } else {
   //       return next({ path: "/login", replace: true });
@@ -77,15 +80,22 @@ router.beforeEach(async (to, from, next) => {
   // }
   if (!authStore.realMenuList.length) {
     await initDynamicRouter();
-    return next({ ...to, replace: true });
+    console.log("初始化路由成功");
+    // return next({ ...to, replace: true });
   }
-  next();
+  return next();
 });
 
+// 全局 后置路由守卫
 router.afterEach((to, from) => {
   nprogress.done();
 });
 
+// 处理路由跳转错误的问题
+router.onError((error) => {
+  nprogress.done();
+  console.warn("路由错误", error.message);
+});
 export default router;
 
 export function resetRouter() {

@@ -44,77 +44,38 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
+.el-menu {
+  background-color: #282c34 !important;
+}
 .el-menu-item {
-  height: 40px !important;
-  margin-bottom: 3px;
+  height: 50px !important;
   font-weight: 500;
-  color: #000000;
+  color: #fff;
+  background-color: #282c34 !important;
 
-  /* 设置用户禁止选中 */
-  user-select: none;
-  border-left: 6px solid #000000;
-  border-radius: 6px;
-
-  // @apply dark:c-#E5E3FA;
-  // i {
-  //   transform: translate(-8px); // 图标偏移
-  // }
-  // span {
-  //   transform: translate(-8px); // 文字偏移
-  // }
-
-  // 设置鼠标悬停时el-menu-item的样式
-  &:hover {
-    color: var(--el-color-primary);
-    background: var(--el-color-primary-light-8);
-    border-left: 6px solid var(--el-color-primary);
-
-    // & 含义 .el-menu-item
-    border-radius: 6px;
-
-    // 实现鼠标悬停时icon变色
-    i {
-      color: var(--el-color-primary);
-    }
-  }
-
-  // 设置选中el-menu-item时的样式
+  &:hover,
   &.is-active {
     color: var(--el-color-primary);
     background: var(--el-color-primary-light-8);
-    border-left: 6pxt solid var(--el-color-primary);
+    border-radius: 10px;
+    i {
+      color: var(--el-color-primary);
+    }
   }
 }
 
 // 子节点
 :deep(.el-sub-menu__title) {
-  height: 40px;
-  padding-right: 0; // 去除collapse缩小多余的边框
-  margin-bottom: 3px;
+  height: 50px;
   font-weight: 500;
-  color: #000000;
-
-  /* 设置用户禁止选中 */
-  user-select: none;
-  border-left: 6px solid #000000;
-  border-radius: 6px;
-
-  @apply dark:c-#E5E3FA;
-  i {
-    transform: translate(-8px); // 图标偏移
-  }
-  span {
-    transform: translate(-8px); // 文字偏移
-  }
+  color: #fff;
   &:hover {
     color: var(--el-color-primary);
     background: var(--el-color-primary-light-8);
-    border-left: 6px solid var(--el-color-primary);
   }
   &:active {
     color: var(--el-color-primary);
     background: var(--el-color-primary-light-8);
-    border-left: 6px solid var(--el-color-primary);
   }
 }
 </style>

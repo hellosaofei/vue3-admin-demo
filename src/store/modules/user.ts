@@ -46,8 +46,15 @@ const useUserStore = defineStore("user", {
             const { name, avatar } = data;
             this.name = name;
             this.avatar = avatar;
-            // initDynamicRouter();
-            resolve(); //将用户信息交出去
+            resolve();
+            // initDynamicRouter()
+            //   .then(() => {
+            //     console.log("初始化动态路由成功");
+            //     resolve();
+            //   })
+            //   .catch((error) => {
+            //     reject(error);
+            //   });
           })
           .catch((error) => {
             reject(error); //抛出错误信息

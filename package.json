@@ -18,6 +18,7 @@
     "mitt": "^3.0.1",
     "nanoid": "^5.0.7",
     "nprogress": "^0.2.0",
+    "path-to-regexp": "^6.2.2",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
     "sass": "^1.77.4",
