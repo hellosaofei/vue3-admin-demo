@@ -7,46 +7,64 @@ export const staticRouter = [
     component: () => import("@/views/login/index.vue"),
     meta: {
       title: "登录",
-      isHide: false, // 是否渲染到导航栏
+      isHide: true, // 是否渲染到导航栏
+      isCache: false,
     },
   },
-  // {
-  //   path: "/home",
-  //   component: () => import("@/views/home/index.vue"),
-  //   meta: {
-  //     title: "首页",
-  //     icon: "HomeFilled", // icon图标
-  //     isHide: false, // 是否渲染到导航栏
-  //     isLink: false, // 是否是外链
-  //     isCache: false, // 是否缓存
-  //     isAffix: true, // 是否固定路由
-  //   },
-  // },
-  // 根路由 / redirect /home
   {
-    path: "/",
+    path: "/home",
     component: Layout,
-    name: "layout",
-    redirect: "/home",
+    name: "Home",
+    meta: {
+      title: "首页",
+      icon: "HomeFilled", // icon图标
+      isHide: false, // 是否渲染到导航栏
+      isLink: false, // 是否是外链
+      isCache: false, // 是否缓存
+      isAffix: true, // 是否固定路由
+    },
+    redirect: "/home/index",
     children: [
       {
-        path: "/home",
+        path: "/home/index",
+        name: "Home",
         component: () => import("@/views/home/index.vue"),
         meta: {
           title: "首页",
-          icon: "HomeFilled", // icon图标
-          isHide: false, // 是否渲染到导航栏
-          isLink: false, // 是否是外链
-          isCache: false, // 是否缓存
-          isAffix: true, // 是否固定路由
+          icon: "House",
+          isHide: false,
+          isLink: false,
+          isCache: true,
+          isAffix: true,
+          activeMenu: "/home/index",
+        },
+      },
+      {
+        path: "/home/dashboard",
+        name: "Dashboard",
+        component: () => import("@/views/home/dashboard.vue"),
+        meta: {
+          title: "数据看板",
+          icon: "House",
+          isHide: false,
+          isLink: false,
+          isCache: true,
+          isAffix: false,
         },
       },
     ],
   },
+  // 根路由 / redirect /home
+  {
+    path: "/",
+    name: "layout",
+    redirect: "/home",
+    component: Layout,
+  },
   // 静态页面
   {
     path: "/static",
-    name: "staticPage",
+    name: "StaticPage",
     redirect: "/static/dict",
     component: Layout,
     meta: {
@@ -54,7 +72,7 @@ export const staticRouter = [
       icon: "House",
       isHide: false,
       isLink: false,
-      isCache: false,
+      isCache: true,
       isAffix: false,
     },
     children: [
@@ -67,7 +85,7 @@ export const staticRouter = [
           icon: "House",
           isHide: false,
           isLink: false,
-          isCache: false,
+          isCache: true,
           isAffix: false,
           activeMenu: "/static/dict",
         },
@@ -94,7 +112,7 @@ export const errorRouter = [
     children: [
       {
         path: "/error-page/403",
-        name: "403Page",
+        name: "403",
         component: () => import("@/views/error/403.vue"),
         meta: {
           title: "403页面",
@@ -107,7 +125,7 @@ export const errorRouter = [
       },
       {
         path: "/error-page/404",
-        name: "404Page",
+        name: "404",
         component: () => import("@/views/error/404.vue"),
         meta: {
           title: "404页面",
@@ -121,7 +139,7 @@ export const errorRouter = [
 
       {
         path: "/error-page/500",
-        name: "500Page",
+        name: "500",
         component: () => import("@/views/error/500.vue"),
         meta: {
           title: "500页面",

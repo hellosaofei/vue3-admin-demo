@@ -111,8 +111,6 @@ function clickToggleTab(tab: TabsPaneContext) {
   // 吸顶
   position: sticky;
   top: 0;
-
-  // background-color: var(--el-bg-color);
   z-index: 10;
 
   // 背景变模糊
@@ -155,7 +153,6 @@ function clickToggleTab(tab: TabsPaneContext) {
   &.is-active {
     color: var(--el-color-primary);
     background: var(--el-color-primary-light-8);
-
     // 边框选中颜色
     border: 1px solid var(--el-color-primary) !important;
   }

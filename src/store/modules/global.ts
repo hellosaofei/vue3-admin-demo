@@ -36,6 +36,8 @@ const globalStore = defineStore("global", {
       isShowThemeConfig: false,
       // 是否显示 标签式导航栏
       isShowTab: true,
+      // 是否显示logo
+      isShowLogo: true,
     };
   },
   getters: {},

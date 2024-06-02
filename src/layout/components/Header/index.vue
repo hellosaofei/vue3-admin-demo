@@ -32,12 +32,13 @@ import { Collapse, User, BreadCrumb, ThemeSetting } from "./components/index";
     align-items: center;
     overflow: hidden;
     white-space: nowrap;
+    margin-left: 10px;
   }
   .header-right {
     display: flex;
     align-items: center;
-    gap: 20px;
-    margin-right: 20px;
+    gap: 10px;
+    margin-right: 10px;
   }
 }
 </style>

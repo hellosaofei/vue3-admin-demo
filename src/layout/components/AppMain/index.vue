@@ -7,6 +7,7 @@
           :is="Component"
           :key="route.fullPath"
           class="bg-#F6F9FE dark:bg-black"
+          style="margin: 20px"
         />
       </keep-alive>
     </transition>

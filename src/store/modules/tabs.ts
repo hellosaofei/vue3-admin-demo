@@ -2,9 +2,12 @@
 import { defineStore } from "pinia";
 import { pinia_prefix } from "@/config";
 import router from "@/routers/index";
-// import useAliveRouteStore from "@/store/modules/keepAlive";
-// const aliveRouteStore = useAliveRouteStore();
 
+import pinia from "@/store/index";
+import useAliveRouteStore from "@/store/modules/keepAlive";
+const aliveRouteStore = useAliveRouteStore(pinia);
+
+// tabStore 中保存的 tabItem 是这个样子的
 interface TabItem {
   icon: string;
   title: string;
@@ -26,10 +29,10 @@ const useTabStore = defineStore("tabs", {
       if (isExist) {
         return;
       } else {
-        // 如果不存在，
-        // if (tab?.isCache) {
-        //   aliveRouteStore.addRoute(tab.name);
-        // }
+        // 如果不存在，向 keepAlive 中添加项目
+        if (tab?.isCache) {
+          aliveRouteStore.addRoute(tab.name);
+        }
         this.tabList.push(tab);
       }
     },
@@ -49,7 +52,7 @@ const useTabStore = defineStore("tabs", {
       }
       // 从缓存中删除当前界面
       const tabItem = this.tabList.find((item) => item.path === tabPath);
-      // tabItem?.isCache && aliveRouteStore.removeRoute(tabItem.name);
+      tabItem?.isCache && aliveRouteStore.removeRoute(tabItem.name);
       this.tabList = this.tabList.filter((item) => item.path !== tabPath);
     },
   },

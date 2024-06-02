@@ -9,7 +9,7 @@
         <el-icon><Stopwatch /></el-icon>
         <span>{{ item.meta.title }}</span>
       </template>
-      <AsideSubMenu :menuList="item.children" />
+      <SideBarItem :menuList="item.children" />
     </el-sub-menu>
     <el-menu-item
       v-else
@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-
+// import { type RouteRecord } from "vue-router";
 const router = useRouter();
 
 const handleMenuIsLink = (value: any) => {
@@ -44,26 +44,6 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-.el-menu {
-  background-color: #282c34 !important;
-}
-.el-menu-item {
-  height: 50px !important;
-  font-weight: 500;
-  color: #fff;
-  background-color: #282c34 !important;
-
-  &:hover,
-  &.is-active {
-    color: var(--el-color-primary);
-    background: var(--el-color-primary-light-8);
-    border-radius: 10px;
-    i {
-      color: var(--el-color-primary);
-    }
-  }
-}
-
 // 子节点
 :deep(.el-sub-menu__title) {
   height: 50px;
@@ -78,16 +58,20 @@ defineProps({
     background: var(--el-color-primary-light-8);
   }
 }
-</style>
 
-<style lang="scss">
-/* 子级菜单字体高亮，父级菜单也高亮 */
-.el-sub-menu.is-active > .el-sub-menu__title {
-  color: var(--el-color-primary) !important;
-}
-
-/* icon图标也跟着变 */
-.el-sub-menu.is-active > .el-sub-menu__title i {
-  color: var(--el-color-primary) !important;
+:deep(.el-menu-item),
+:deep(.el-sub-menu__title),
+:deep(.el-sub-menu),
+:deep(.el-sub-menu .el-menu-item),
+:deep(.el-menu--horizontal .el-menu-item) {
+  margin: 0 8px 5px;
+  border-radius: 5px;
+  border-right: 0;
+  &.is-active,
+  &:hover {
+    color: var(--el-color-primary);
+    background-color: var(--el-color-primary-light-8);
+    border-radius: 5px;
+  }
 }
 </style>

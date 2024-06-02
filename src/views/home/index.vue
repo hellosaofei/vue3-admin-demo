@@ -2,7 +2,7 @@
   <div class="p-6px">这是首页</div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="Home">
 import { onMounted } from "vue";
 
 onMounted(() => {

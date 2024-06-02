@@ -1,79 +1,91 @@
 <template>
-  <el-container class="layout-container br-10">
-    <el-aside
-      class="layout-aside transition-all"
-      :style="{
-        width: !globalStore.isCollapse ? globalStore.menuWidth + 'px' : '70px',
-      }"
-    >
-      <Logo
-        :isCollapse="globalStore.isCollapse"
-        :layout="globalStore.layout"
-      ></Logo>
-      <el-menu
-        :default-active="activeMenu"
-        :collapse="globalStore.isCollapse"
-        :collapse-transition="true"
-      >
-        <AsideSubMenu :menuList="authStore.realMenuList"></AsideSubMenu>
-      </el-menu>
-    </el-aside>
-    <el-container>
-      <el-header class="layout-header">
+  <div class="app-wrapper br-10 clearfix" :class="layoutClasses">
+    <SideBar class="sidebar-container" />
+    <div class="main-container">
+      <div class="app-header">
         <Header></Header>
-      </el-header>
-      <el-main class="layout-main">
-        <AppMain></AppMain>
-      </el-main>
-    </el-container>
-  </el-container>
+      </div>
+      <AppMain class="app-main"></AppMain>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { Logo, AppMain, Header } from "@/layout/components/index";
-import AsideSubMenu from "./components/AsideSubMenu.vue";
+import { AppMain, Header } from "@/layout/components/index";
+import SideBar from "./components/SideBar.vue";
 
-import useConfigCase from "@/hooks/config";
+import { computed } from "vue";
 
-import useAuthStore from "@/store/modules/auth";
 import useGlobalStore from "@/store/modules/global";
-const authStore = useAuthStore();
+
 const globalStore = useGlobalStore();
 
-const { activeMenu } = useConfigCase();
-
-const router = useRouter();
-
-onMounted(() => {
-  console.log(router);
-  console.log(authStore.getBreadcrumbList);
+const layoutClasses = computed(() => {
+  return {
+    hideSidebar: globalStore.isCollapse,
+  };
 });
 </script>
 
 <style lang="scss" scoped>
-.layout-container {
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+// 总容器
+.app-wrapper {
+  position: relative;
   width: 100%;
+  min-height: 100%;
+}
+
+// 侧边 导航栏区
+.sidebar-container {
+  background-color: #282c34;
+  transition: width 0.5s;
+  //--v3-sidebar-width
+  width: var(--v3-sidebar-width);
   height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1001;
   overflow: hidden;
-  .layout-aside {
-    z-index: 10; // 左侧菜单层级
-    padding-right: 4px; // 左侧布局右边距（用于悬浮和选中更明显）
-    padding-left: 4px; // 左侧布局左边距（用于悬浮和选中更明显）
-    background-color: #282c34;
-    border-right: none;
-    // box-shadow: $aside-menu-box-shadow; // 左侧布局右边框阴影
+  border-radius: 10px 0 0 10px;
+  border-right: 0;
+}
+
+// 主内容区
+.main-container {
+  min-height: 100%;
+  transition: margin-left 0.5s;
+  margin-left: var(--v3-sidebar-width);
+  position: relative;
+}
+// header 区域
+.app-header {
+  position: relative;
+  z-index: 9;
+  border-bottom: 1px;
+}
+// 内容区域
+.app-main {
+  min-height: calc(100vh-var(--v3-navigationbar-height));
+  position: relative;
+  overflow: hidden;
+}
+// 左侧导航栏折叠后的 宽度
+.hideSidebar {
+  .sidebar-container {
+    width: var(--v3-sidebar-hide-width) !important;
   }
-  .layout-header {
-    height: 56px;
-    background-color: var(--el-header-bg-color);
+  .main-container {
+    margin-left: var(--v3-sidebar-hide-width);
   }
-  .layout-main {
-    box-sizing: border-box;
-    padding: 0;
-    overflow-x: hidden;
-    background-color: var(--el-bg-color);
+  .fixed-header {
+    width: calc(100% - var(--v3-sidebar-hide-width));
   }
 }
 
@@ -89,12 +101,5 @@ onMounted(() => {
 .layout-scrollbar {
   width: 100%;
   height: calc(100vh - 56px);
-}
-</style>
-
-<style lang="scss">
-/** 菜单悬浮折叠宽度 */
-.el-menu--collapse {
-  width: 70px !important;
 }
 </style>
